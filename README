@@ -1,1 +1,28 @@
-v0.0.1 - first commit to Github
+DEMO (under development)
+http://multimedia123.com/iide/webik/
+
+With this project I plan to:
+ 1. Try and emulate the native iPhone Keyboard in HTML/CSS/JS.
+ 2. Trigger keypress / keyup / keydown events, with the correct charcode, when keys are pressed.
+ 3. Allow for customisable keyboard layouts
+    Example 1: A layout optimised for inputing Ruby code may have all the keys for {}<>()[] on the one keyboard. Also keys like 'pound', 'yen', 'euro' and 'bullet' may be removed.
+    Example 2: A gaming keyboard may include keys to trigger the up/down/left/right key events... not possible with the native iphone keyboard
+ 4. Allow for easy Themeing of the keyboard to give it your own look and feel
+    Example: I plan to include an Apple theme (native iphone look and feel) and a Terminal theme (black, green, and Courier font)).
+ 5. Integrate this project with jQTouch (http://www.jqtouch.com/) for it's Fast Tap feature (http://blog.jqtouch.com/post/205113875/milliseconds-responsiveness-and-the-fast-tap)
+
+But why bother?
+I'm trying to solve three problems...
+ 1. You cannot manually launch the native iPhone keyboard without focusing on an <input> element
+ 2. The keys/layout of the native iPhone keyboard are not suited to typing CODE (e.g. html, css, ruby, etc). The keyboard is only suited to typing general input e.g. emails, text messages, notes.
+ 3. There are some keys / key-combinations you can not perform on the native keyboard e.g. up, down, left, right, esc, ctrl+c, ctrl+b...
+ 
+Where would this be useful?
+The Try Ruby website ( http://tryruby.sophrinix.com/ - try ruby! (in your browser)) provides an interactive tutorial to introduce people to the Ruby programming language.
+This site has a <DIV> which accepts input by using Javascript to monitor $(document).keypress() events.
+There is no <INPUT> element, and therefor no way to trigger the native iPhone Keyboard, thus the site is unusable on the iPhone.
+Secondly even if you could launch the native iPhone keyboard, the keyboard layout would be a pain to code with...
+
+Where will I see this in the future:
+I plan to work with Sophrinix to bring TryRuby to the iphone (http://github.com/Sophrinix/TryRuby).
+I plan to work with David Kaneda to see if he will integrate WebIK into the jQTouch project (http://code.google.com/p/jqtouch/)
