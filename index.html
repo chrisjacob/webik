@@ -1,0 +1,408 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>WebIK - Web Based iPhone Keyboard</title>
+		<style type="text/css" media="screen">@import "css/style.css";</style>
+		<script src="../js/jquery.1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			$(function(){
+				// hide iphone until windows has loaded
+				$('#iphone').hide();
+				
+				// hide all keyboards on DOM load
+				$('#keyboard .keyboard').hide();
+				$('#keyboard-1').addClass('active').show();
+				
+				$('#test-orientation').click(function(){
+					var screenHeight = $('#screen').height();
+					if ($('body').hasClass('landscape')) 
+					{
+						$('body').removeClass('landscape').addClass('profile');
+						if(screenHeight > 138)
+						{
+							$('#screen').stop().height(460);
+						} else {
+							$('#screen').stop().height(244);
+						}
+					} else {
+						$('body').removeClass('profile').addClass('landscape');
+						if(screenHeight > 244)
+						{
+							$('#screen').stop().height(300);
+						} else {
+							$('#screen').stop().height(138);
+						}
+					}
+				});
+				$('#test-blank').click(function(){
+					$('#iphone').removeClass('abc abc-dim').addClass('blank');
+				});
+				$('#test-abc').click(function(){
+					$('#iphone').removeClass('blank abc-dim').addClass('abc');
+				});
+				$('#test-abc-dim').click(function(){
+					$('#iphone').removeClass('blank abc').addClass('abc-dim');
+				});
+				$('#test-overlays').click(function(){
+					$('#iphone').toggleClass('overlays');
+				});
+				$('#test-no-keyboard-background').click(function(){
+					$('#iphone').toggleClass('no-keyboard-background');
+				});
+				$('#test-no-key-backgrounds').click(function(){
+					$('#iphone').toggleClass('no-key-backgrounds');
+				});
+				$('#test-toggle-keyboard').click(function(){
+					toggleKeyboard();
+				});
+				$('.show-keyboard').click(function(){
+					$('.keyboard.active').removeClass('active').hide();
+					$('#keyboard-' + $(this).text()).show().addClass('active');
+				});
+			});
+			
+			function toggleKeyboard()
+			{
+				if ($('body').hasClass('landscape'))
+				{
+					if($('#screen').height() > 138)
+					{
+						$('#screen').stop().animate({ "height": 138 }, "slow");
+					} else {
+						$('#screen').stop().animate({ "height": 300 }, "slow");
+					}
+			  } else {
+					if($('#screen').height() > 244)
+					{
+						$('#screen').stop().animate({ "height": 244 }, "slow");
+					} else {
+						$('#screen').stop().animate({ "height": 460 }, "slow");
+					}
+				}
+			}
+			
+			function windowLoaded()
+			{
+				$('#loading').hide();
+				$('#iphone').show();
+				toggleKeyboard();
+			}
+			
+			// wait for the iphone image to be loaded, then toggle the keyboard onto the screen... ooOOoo fancy
+			window.onload = windowLoaded;
+		</script>
+		<style type="text/css" media="screen">
+			/* TODO
+			 * jqTouch should apply the '.active' class on the element clicked/tapped, until the click/tap event has been completed. 
+			 * The '.sticky' class is going to be a custom addition. 
+			 */
+				
+			/* 
+			 * Both Orientations 
+			 */
+			
+			body{background: #101112 none repeat-x scroll 0px 0px;margin:0px;padding:0px;font-family: Helvetica, Arial, sans-serif;font-size:16px;line-height:16px;}
+			#iphone{float:left;}
+			#container{overflow:hidden;}
+			#screen{overflow:scroll;}
+			#keyboard{padding:0px;background:transparent none repeat-x 0px 0px;}
+			ol.keyboard-row{display:table;border-collapse:collapse;list-style-type:none;padding:0px;margin:0px;}
+			li.keyboard-key{display:table-cell;padding:0px;margin:0px;font-weight:bold;font-size:22px;text-align:center;}
+			li.keyboard-key a, li.keyboard-key a:link, li.keyboard-key a:visited, li.keyboard-key a:hover, li.keyboard-key a:active, li.keyboard-key a:focus {color:#000;text-shadow:0px 1px 0px rgb(255, 255, 255);outline:none;text-decoration:none;display:block;background:transparent none no-repeat 0px 0px;}
+			li.keyboard-key a.active, li.keyboard-key a.active:link, li.keyboard-key a.active:visited, li.keyboard-key a.active:hover, li.keyboard-key a.active:active, li.keyboard-key a.active:focus {color:#FFF;text-shadow:0px -1px 0px rgb(66, 67, 71);}
+			/* li.keyboard-key a.sticky, li.keyboard-key a.sticky:link, li.keyboard-key a.sticky:visited, li.keyboard-key a.sticky:hover, li.keyboard-key a.sticky:active, li.keyboard-key a.sticky:focus {color:#FFF;text-shadow:0px -1px 0px rgb(66, 67, 71);} */
+			li.keyboard-key-dark a, li.keyboard-key-dark a:link, li.keyboard-key-dark a:visited, li.keyboard-key-dark a:hover, li.keyboard-key-dark a:active, li.keyboard-key-dark a:focus {color:#FFF;text-shadow:0px -1px 0px rgb(66, 67, 71);}
+			li.keyboard-key-dark a.active, li.keyboard-key-dark a.active:link, li.keyboard-key-dark a.active:visited, li.keyboard-key-dark a.active:hover, li.keyboard-key-dark a.active:active, li.keyboard-key-dark a.active:focus {color:#000;text-shadow:0px 1px 0px rgb(255, 255, 255);}
+			/* li.keyboard-key-dark a.sticky, li.keyboard-key-dark a.sticky:link, li.keyboard-key-dark a.sticky:visited, li.keyboard-key-dark a.sticky:hover, li.keyboard-key-dark a.sticky:active, li.keyboard-key-dark a.sticky:focus {color:#000;text-shadow:0px 1px 0px rgb(255, 255, 255);} */
+			li.keyboard-key-space a, li.keyboard-key-space a:link, li.keyboard-key-space a:visited, li.keyboard-key-space a:hover, li.keyboard-key-space a:active, li.keyboard-key-space a:focus {color:#676b74;text-shadow:0px 1px 0px rgb(255, 255, 255);}
+			/* TODO space key needs it's own specific colors as it is neather the defaut white or dark grey color*/
+			
+			li.keyboard-key-spacer{display:table-cell;width:auto;min-width:1px;font-size:1px;line-height:1px;}
+			li.keyboard-key.text-small{font-size:16px;}
+			
+				/* Key Icons */
+				#keyboard ol.keyboard-row li.keyboard-key a span{display:inline-block;text-indent:-9999px;background:transparent none no-repeat 0px 0px;}
+				#keyboard ol.keyboard-row li.keyboard-key a span#shift{width:22px;height:22px;background-image:url(./images/key_icon_shift.png);}
+				#keyboard ol.keyboard-row li.keyboard-key a span#backspace{width:26px;height:18px;background-image:url(./images/key_icon_backspace.png);}
+				/* #keyboard ol.keyboard-row li.keyboard-key a.active span#backspace{background-image:url(./images/key_icon_backspace_active.png);}
+				#keyboard ol.keyboard-row li.keyboard-key a.sticky span#backspace{background-image:url(./images/key_icon_backspace_sticky.png);} */
+
+			
+			/* 
+			 * Landscape Orientation
+			 */
+			
+			.landscape #iphone{width:799px;height:473px;}
+			.landscape #iphone.blank{background: transparent url(./images/landscape_iphone_blank.png) no-repeat 0px 0px;}
+			.landscape #iphone.abc{background: transparent url(./images/landscape_iphone_abc.png) no-repeat 0px 0px;}
+			.landscape #iphone.abc-dim{background: transparent url(./images/landscape_iphone_abc_dim.png) no-repeat 0px 0px;}
+			
+			.landscape #container{margin:53px 0px 0px 160px;width:480px;height:300px;}
+			.landscape #screen{width:480px;height:138px;}
+			.landscape #keyboard{width:480px;height:160px;padding-top:2px;background-image:url(./images/landscape_keyboard.png);}
+			.landscape #keyboard ol.keyboard-row{height:40px;width:480px;}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key{width:48px;height:40px;line-height:40px;}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key a{width:48px;height:40px;float:left;background-image:url(./images/landscape_key.png);}
+			/* .landscape #keyboard ol.keyboard-row li.keyboard-key a.active{background-image:url(./images/landscape_key_dark.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key a.sticky{background-image:url(./images/landscape_key_sticky.png);} */
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-dark a{background-image:url(./images/landscape_key_dark.png);}
+			/* .landscape #keyboard ol.keyboard-row li.keyboard-key-dark a.active{background-image:url(./images/landscape_key.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-dark a.sticky{background-image:url(./images/landscape_key_sticky.png);} */
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-sml-medium{width:60px;}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-sml-medium a{width:60px;background-image:url(./images/landscape_key_sml_medium.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-sml-medium.keyboard-key-dark a{background-image:url(./images/landscape_key_sml_medium_dark.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-medium{width:67px;}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-medium a{width:67px;background-image:url(./images/landscape_key_medium.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-medium.keyboard-key-dark a{background-image:url(./images/landscape_key_medium_dark.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-large{width:94px;}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-large a{width:94px;background-image:url(./images/landscape_key_large.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-large.keyboard-key-dark a{background-image:url(./images/landscape_key_large_dark.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-space{width:286px;}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-space a{width:286px;background-image:url(./images/landscape_key_space.png);}
+			.landscape #keyboard ol.keyboard-row li.keyboard-key-space.keyboard-key-dark a{background-image:url(./images/landscape_key_space_dark.png);}
+
+				/* Key Icons */
+				.landscape #keyboard ol.keyboard-row li.keyboard-key a span#shift{margin-top:9px;}
+				.landscape #keyboard ol.keyboard-row li.keyboard-key a span#backspace{margin-top:12px;}
+			
+			
+			/* 
+			 * Profile Orientation
+			 */
+			
+			.profile #iphone{width:463px;height:756px;}
+			.profile #iphone.blank{background: transparent url(./images/profile_iphone_blank.png) no-repeat 0px 0px;}
+			.profile #iphone.abc{background: transparent url(./images/profile_iphone_abc.png) no-repeat 0px 0px;}
+			.profile #iphone.abc-dim{background: transparent url(./images/profile_iphone_abc_dim.png) no-repeat 0px 0px;}
+			
+			.profile #container{margin:141px 0px 0px 73px;width:320px;height:460px;}
+			.profile #screen{width:320px;height:244px;}
+			.profile #keyboard{width:320px;height:212px;padding-top:4px;background-image:url(./images/profile_keyboard.png);}
+			.profile #keyboard ol.keyboard-row{height:54px;width:320px;}
+			.profile #keyboard ol.keyboard-row li.keyboard-key{width:32px;height:54px;line-height:54px;}
+			.profile #keyboard ol.keyboard-row li.keyboard-key a {width:32px;height:54px;float:left;background-image:url(./images/profile_key.png);}
+			/* .profile #keyboard ol.keyboard-row li.keyboard-key a.active{background-image:url(./images/profile_key_dark.png);}
+			.profile #keyboard ol.keyboard-row li.keyboard-key a.sticky{background-image:url(./images/profile_key_sticky.png);} */
+			.profile #keyboard ol.keyboard-row li.keyboard-key-dark a{background-image:url(./images/profile_key_dark.png);}
+			/* .profile #keyboard ol.keyboard-row li.keyboard-key-dark a.active{background-image:url(./images/profile_key.png);}
+			.profile #keyboard ol.keyboard-row li.keyboard-key-dark a.sticky{background-image:url(./images/profile_key_sticky.png);} */
+
+				/* Key Icons */
+				.profile #keyboard ol.keyboard-row li.keyboard-key a span#shift{margin-top:16px;}
+				.profile #keyboard ol.keyboard-row li.keyboard-key a span#backspace{margin-top:18px;}
+
+
+			/* 
+			 * Test Page Only
+			 */			
+			#test-menu{background-color:#fff;text-align:center;padding:10px 0px;margin-bottom:30px;}
+			#page-container{margin:0px auto;}
+			.landscape #page-container{width:799px;}
+			.profile #page-container{width:463px;}
+			
+				/* Overlays */
+				.landscape #iphone.overlays #container{background: transparent url(./images/bg_red.png) repeat 160px 53px;}
+				.profile #iphone.overlays #container{background: transparent url(./images/bg_red.png) repeat 73px 141px;}
+				#iphone.overlays .screen{background: transparent url(./images/bg_blue.png) repeat 0px 0px;}
+				#iphone.overlays .keyboard{background: transparent url(./images/bg_green.png) repeat 0px 0px;}
+				#iphone.overlays ol.keyboard-row{background: transparent url(./images/bg_yellow.png) repeat 0px 0px;}
+				#iphone.overlays li.keyboard-key{background: transparent url(./images/bg_magenta.png) repeat 0px 0px;}
+
+				/* No Keyboard Background */
+				.landscape #iphone.no-keyboard-background #keyboard{background-image: none;}
+				.profile #iphone.no-keyboard-background #keyboard{background-image: none;}
+			
+				/* No Key Backgrounds */
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key a{background-image:none;}
+				/* .landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key a.active{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key a.sticky{background-image:none;} */
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-dark a{background-image:none;}
+				/* .landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-dark a.active{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-dark a.sticky{background-image:none;} */
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-sml-medium a{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-sml-medium.keyboard-key-dark a{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-medium a{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-medium.keyboard-key-dark a{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-large a{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-large.keyboard-key-dark a{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-space a{background-image:none;}
+				.landscape #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-space.keyboard-key-dark a{background-image:none;}
+				.profile #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key a{background-image:none;}
+				.profile #iphone.no-key-backgrounds #keyboard ol.keyboard-row li.keyboard-key-dark a{background-image:none;}
+			
+				/* Loading */
+				/* this style is only here to trigger the keyboardToggle() function to animate the keyboard onto the screen on window.onload*/
+				.landscape #screen{height:300px;}
+				#loading{width:150px;height:32px;margin:180px auto;padding-left:45px;font-size:28px;line-height:32px;font-weight:bold;color:#FFF;text-shadow:1px 2px 0px rgb(36, 63, 119);background: transparent url(./images/loading.gif) no-repeat 0px 0px;}
+		</style>
+	</head>
+	
+	<body class="landscape">
+		<div id="test-menu">
+			<a id="test-orientation" href="javascript:void(0);">Toggle Orientation</a> | <a id="test-toggle-keyboard" href="javascript:void(0);">Toggle Keyboard</a> | Show Keyboard: <a class="show-keyboard" href="javascript:void(0);">1</a> | <a class="show-keyboard" href="javascript:void(0);">2</a> | <a class="show-keyboard" href="javascript:void(0);">3</a> 
+			<br />
+			<a id="test-overlays" href="javascript:void(0);">Toggle Overlays</a> | <a id="test-no-key-backgrounds" href="javascript:void(0);">Toggle Key Backgrounds</a> | <a id="test-no-keyboard-background" href="javascript:void(0);">Toggle Keyboard Background</a> | Background: <a id="test-blank" href="javascript:void(0);">Blank</a> | <a id="test-abc" href="javascript:void(0);">ABC</a> | <a id="test-abc-dim" href="javascript:void(0);">ABC dim</a>		
+		</div>
+		<div id="page-container">
+			<div id="loading">Loading...</div>
+			<div id="iphone" class="blank">
+				<div id="container">
+					<div id="screen">
+						Hello World
+						<br />
+						Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+						<!-- <br />Loremipsumdolorsitameconsectetueradipiscingeliteddiamnonummynibheuismodtinciduntutlaoreetdoloremagnaaliquameratvolutpat. -->
+						<br />0<br />1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />0<br />1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />0<br />1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9
+					</div>
+					<div id="keyboard">
+						<div id="keyboard-1" class="keyboard">
+							<ol class="keyboard-row">
+								<li class="keyboard-key"><a href="#">Q</a></li>
+								<li class="keyboard-key"><a href="#">W</a></li>
+								<li class="keyboard-key"><a href="#">E</a></li>
+								<li class="keyboard-key"><a href="#">R</a></li>
+								<li class="keyboard-key"><a href="#">T</a></li>
+								<li class="keyboard-key"><a href="#">Y</a></li>
+								<li class="keyboard-key"><a href="#">U</a></li>
+								<li class="keyboard-key"><a href="#">I</a></li>
+								<li class="keyboard-key"><a href="#">O</a></li>
+								<li class="keyboard-key"><a href="#">P</a></li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key"><a href="#">A</a></li>
+								<li class="keyboard-key"><a href="#">S</a></li>
+								<li class="keyboard-key"><a href="#">D</a></li>
+								<li class="keyboard-key"><a href="#">F</a></li>
+								<li class="keyboard-key"><a href="#">G</a></li>
+								<li class="keyboard-key"><a href="#">H</a></li>
+								<li class="keyboard-key"><a href="#">J</a></li>
+								<li class="keyboard-key"><a href="#">K</a></li>
+								<li class="keyboard-key"><a href="#">L</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key keyboard-key-sml-medium keyboard-key-dark"><a href="#"><span id="shift">shift</span></a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key"><a href="#">Z</a></li>
+								<li class="keyboard-key"><a href="#">X</a></li>
+								<li class="keyboard-key"><a href="#">C</a></li>
+								<li class="keyboard-key"><a href="#">V</a></li>
+								<li class="keyboard-key"><a href="#">B</a></li>
+								<li class="keyboard-key"><a href="#">N</a></li>
+								<li class="keyboard-key"><a href="#">M</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-sml-medium keyboard-key-dark"><a href="#"><span id="backspace">backspace</span></a></li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-large keyboard-key-dark text-small"><a href="#">.?123</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-space text-small"><a href="#">space</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-large keyboard-key-dark text-small"><a href="#">return</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+							</ol>
+						</div>
+						
+						<div id="keyboard-2" class="keyboard">
+							<ol class="keyboard-row">
+								<li class="keyboard-key"><a href="#">1</a></li>
+								<li class="keyboard-key"><a href="#">2</a></li>
+								<li class="keyboard-key"><a href="#">3</a></li>
+								<li class="keyboard-key"><a href="#">4</a></li>
+								<li class="keyboard-key"><a href="#">5</a></li>
+								<li class="keyboard-key"><a href="#">6</a></li>
+								<li class="keyboard-key"><a href="#">7</a></li>
+								<li class="keyboard-key"><a href="#">8</a></li>
+								<li class="keyboard-key"><a href="#">9</a></li>
+								<li class="keyboard-key"><a href="#">0</a></li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key"><a href="#">&ndash;</a></li>
+								<li class="keyboard-key"><a href="#">/</a></li>
+								<li class="keyboard-key"><a href="#">:</a></li>
+								<li class="keyboard-key"><a href="#">;</a></li>
+								<li class="keyboard-key"><a href="#">(</a></li>
+								<li class="keyboard-key"><a href="#">)</a></li>
+								<li class="keyboard-key"><a href="#">&pound;</a></li>
+								<li class="keyboard-key"><a href="#">&amp;</a></li>
+								<li class="keyboard-key"><a href="#">@</a></li>
+								<li class="keyboard-key"><a href="#">&rdquo;</a></li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key keyboard-key-sml-medium keyboard-key-dark text-small"><a href="#">#+=</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">.</a></li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">,</a></li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">?</a></li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">!</a></li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">&rsquo;</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-sml-medium keyboard-key-dark"><a href="#"><span id="backspace">backspace</span></a></li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-large keyboard-key-dark text-small"><a href="#">ABC</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-space text-small"><a href="#">space</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-large keyboard-key-dark text-small"><a href="#">return</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+							</ol>
+						</div>
+						
+						<div id="keyboard-3" class="keyboard">
+							<ol class="keyboard-row">
+								<li class="keyboard-key"><a href="#">[</a></li>
+								<li class="keyboard-key"><a href="#">]</a></li>
+								<li class="keyboard-key"><a href="#">{</a></li>
+								<li class="keyboard-key"><a href="#">}</a></li>
+								<li class="keyboard-key"><a href="#">#</a></li>
+								<li class="keyboard-key"><a href="#">%</a></li>
+								<li class="keyboard-key"><a href="#">^</a></li>
+								<li class="keyboard-key"><a href="#">*</a></li>
+								<li class="keyboard-key"><a href="#">+</a></li>
+								<li class="keyboard-key"><a href="#">=</a></li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key"><a href="#">_</a></li>
+								<li class="keyboard-key"><a href="#">\</a></li>
+								<li class="keyboard-key"><a href="#">|</a></li>
+								<li class="keyboard-key"><a href="#">~</a></li>
+								<li class="keyboard-key"><a href="#">&lt;</a></li>
+								<li class="keyboard-key"><a href="#">&gt;</a></li>
+								<li class="keyboard-key"><a href="#">&euro;</a></li>
+								<li class="keyboard-key"><a href="#">$</a></li>
+								<li class="keyboard-key"><a href="#">&yen;</a></li>
+								<li class="keyboard-key"><a href="#">&bull;</a></li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key keyboard-key-sml-medium keyboard-key-dark text-small"><a href="#">123</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">.</a></li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">,</a></li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">?</a></li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">!</a></li>
+								<li class="keyboard-key keyboard-key-medium"><a href="#">&rsquo;</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-sml-medium keyboard-key-dark"><a href="#"><span id="backspace">backspace</span></a></li>
+							</ol>
+							<ol class="keyboard-row">
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-large keyboard-key-dark text-small"><a href="#">ABC</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-space text-small"><a href="#">space</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+								<li class="keyboard-key keyboard-key-large keyboard-key-dark text-small"><a href="#">return</a></li>
+								<li class="keyboard-key-spacer">&nbsp;</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</body>
+</html>
